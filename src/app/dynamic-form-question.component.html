@@ -1,0 +1,42 @@
+<div [formGroup]="form">
+  <label [attr.for]="question.key" [className]="question.labelHtmlClass" *ngIf="checkCondition(question.condition)"> {{question.label}}</label>
+  <span *ngIf="question.showHelp">    
+      <button type="button" class="btn btn-primary " (click)="handleClick()" #target>Primary</button>
+<p id="passwordHelpBlock" class="form-text text-muted hide-button">
+   Must be 8-20 characters long.
+</p>
+  </span>
+  <div [ngSwitch]="question.controlType">
+    <div *ngSwitchCase="'template'" [innerHTML]="question.template"></div>
+ <ng-container *ngSwitchCase="'textbox'" >
+    <input [formControlName]="question.key" [id]="question.key" [type]="question.type" [className]="question.fieldHtmlClass" >
+   
+ </ng-container>
+    <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
+      <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+    </select>
+
+
+    <ng-container *ngSwitchCase="'radio'" >
+      <tr *ngFor="let opt of question.options" >
+        <div *ngIf="checkCondition(question.condition)">
+        <td>
+          <input [id]="question.key" type="radio" [formControlName]="question.key" [value]="opt.value">
+        </td>
+        <td>{{opt.value}}</td>
+         </div>
+      </tr>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'checkboxes'">
+      <tr *ngFor="let opt of question.options;let i= index">
+        <!-- <td> -->
+        <input [id]="question.key" type="checkbox" [formControl]="form.controls[question.key].controls[i]" [value]="opt.value">{{opt.value}}
+        <!-- </td> -->
+        <!-- <td>{{opt.value}}</td> -->
+      </tr>
+    </ng-container>
+  </div>
+
+  <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
+</div>

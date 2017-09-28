@@ -1,0 +1,13 @@
+.dummyclass {
+    color: red;
+    font-size: 16px;
+}
+
+.testclass {
+    color: blue;
+    font-size: 14px;
+}
+
+.hide-class {
+    display: none;
+}
